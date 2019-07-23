@@ -8,7 +8,7 @@ def plot_model_loss(hist, answer, filename):
 	plt.xlabel('Epoch')
 	plt.legend(['Train', 'Val'], loc='upper right')
 	if answer == 'y':
-		plt.savefig(filename+'_loss_graph.png',dpi=400)
+		plt.savefig(filename + '/' + filename + '_loss_graph.png',dpi=400)
 	plt.show()
 
 def plot_model_accuracy(hist, answer, filename):
@@ -19,5 +19,5 @@ def plot_model_accuracy(hist, answer, filename):
 	plt.xlabel('Epoch')
 	plt.legend(['Train', 'Val'], loc='lower right')
 	if answer == 'y':
-		plt.savefig(filename+'_acc_graph.png',dpi=400)
+		plt.savefig(filename + '/' + filename + '_acc_graph.png',dpi=400)
 	plt.show()
