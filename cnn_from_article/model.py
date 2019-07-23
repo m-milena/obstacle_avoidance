@@ -39,7 +39,6 @@ x_train, x_val_test, y_train, y_val_test = train_test_split(dataset_input, datas
 from sklearn.model_selection import train_test_split
 x_val, x_test, y_val, y_test = train_test_split(x_val_test, y_val_test, test_size = 0.5)
 
-
 # tf & keras
 import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
@@ -56,7 +55,6 @@ model = Sequential([
 	AveragePooling2D(pool_size = (2,2), strides = 2),
 	Flatten(),
 	Dense(256, activation = 'linear'),
-	Dropout(0.5),
 	Dense(128, activation = 'linear'),
 	Dense(5, activation = 'linear')
 ])
@@ -73,6 +71,42 @@ test_loss = model.evaluate(x_test, y_test)[0]
 test_accuracy = model.evaluate(x_test, y_test)[1]
 print("Test loss: ", test_loss)
 print("Test accuracy: ", test_accuracy)
+
+predictions = model.predict(x_test)
+from predictions_plot import plot_image, plot_value_array
+import matplotlib.pyplot as plt
+
+num_rows = 5
+num_cols = 4
+num_images = num_rows*num_cols
+plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i, predictions, y_test, x_test)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i, predictions, y_test)
+plt.show()
+
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i+20, predictions, y_test, x_test)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i+20, predictions, y_test)
+plt.show()
+
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i+40, predictions, y_test, x_test)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i+40, predictions, y_test)
+plt.show()
+
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i+60, predictions, y_test, x_test)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i+60, predictions, y_test)
+plt.show()
 
 # saving model
 print('Do you want to save this model? y/n')

@@ -9,7 +9,7 @@ def plot_model_loss(hist, answer, filename):
 	plt.legend(['Train', 'Val'], loc='upper right')
 	if answer == 'y':
 		plt.savefig(filename + '/' + filename + '_loss_graph.png',dpi=400)
-	plt.show()
+		plt.show()
 
 def plot_model_accuracy(hist, answer, filename):
 	plt.plot(hist.history['acc'])
@@ -20,4 +20,4 @@ def plot_model_accuracy(hist, answer, filename):
 	plt.legend(['Train', 'Val'], loc='lower right')
 	if answer == 'y':
 		plt.savefig(filename + '/' + filename + '_acc_graph.png',dpi=400)
-	plt.show()
+		plt.show()
