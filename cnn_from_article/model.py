@@ -55,13 +55,14 @@ model = Sequential([
 	AveragePooling2D(pool_size = (2,2), strides = 2),
 	Flatten(),
 	Dense(256, activation = 'linear'),
+	Dropout(0.5),
 	Dense(128, activation = 'linear'),
 	Dense(5, activation = 'linear')
 ])
 
 # Training 
 BATCH_SIZE = 16;
-EPOCHS = 200;
+EPOCHS = 250;
 
 model.compile(loss="mean_squared_error", optimizer='adam', metrics=["accuracy"])
 hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val))
@@ -81,7 +82,7 @@ filename = ''
 if answer == 'y':
 	print('Input filename:')
 	filename = input()
-	os.mkdir(filename)
+	os.mkdir("training/" + filename)
 	plot_example_predictions(filename, x_test, y_test, predictions)
 	model_description_to_txt(filename, model, BATCH_SIZE, EPOCHS, test_loss, test_accuracy)
 	model.save('training/' + filename + '/' + filename + '_model.model')
