@@ -48,7 +48,7 @@ from predictions_plot import plot_example_predictions
 
 # CNN model
 model = Sequential([
-	Conv2D(32, (5,5), kernel_regularizer=l2(0.01), padding = 'same', input_shape = (IMG_HEIGHT, IMG_WIDTH, 1), activation = 'relu'),
+	Conv2D(32, (5,5), padding = 'same', input_shape = (IMG_HEIGHT, IMG_WIDTH, 1), activation = 'relu'),
 	MaxPooling2D(pool_size = (2,2), strides = 2),
 	Conv2D(32, (5,5), padding = 'same', activation = 'relu'),
 	AveragePooling2D(pool_size = (2,2), strides = 2),
@@ -56,6 +56,7 @@ model = Sequential([
 	AveragePooling2D(pool_size = (2,2), strides = 2),
 	Flatten(),
 	Dense(256, activation = 'linear'),
+	Dropout(0.5),
 	Dense(128, activation = 'linear'),
 	Dense(5, activation = 'linear')
 ])
