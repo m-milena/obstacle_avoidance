@@ -84,13 +84,13 @@ if answer == 'y':
 	os.mkdir(filename)
 	plot_example_predictions(filename, x_test, y_test, predictions)
 	model_description_to_txt(filename, model, BATCH_SIZE, EPOCHS, test_loss, test_accuracy)
-	model.save(filename + '/' + filename + '_model.model')
-	model.save(filename + '/' + filename + '_model.h5')
+	model.save('training/' + filename + '/' + filename + '_model.model')
+	model.save('training/' + filename + '/' + filename + '_model.h5')
 	model_json = model.to_json()
-	with open(filename + '/' + filename + '_model.json', 'w') as json_file:
+	with open('training/' + filename + '/' + filename + '_model.json', 'w') as json_file:
 		json_file.write(model_json)
 	hist_df = pd.DataFrame(hist.history) 
-	with open(filename + '/' + filename + '_logg.csv', 'w') as f:
+	with open('training/' + filename + '/' + filename + '_logg.csv', 'w') as f:
     		hist_df.to_csv(f)
 
 # Training visualisation
