@@ -3,6 +3,7 @@ import random
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import numpy as np
 import pandas as pd
+import datetime
 from model_description_to_txt import model_description_to_txt
 
 dataset_input = []
@@ -43,6 +44,7 @@ import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.callbacks import TensorBoard
 from keras.regularizers import l2
 from predictions_plot import plot_example_predictions
 
@@ -55,18 +57,21 @@ model = Sequential([
 	Conv2D(64, (5,5), padding = 'same', activation = 'relu'),
 	AveragePooling2D(pool_size = (2,2), strides = 2),
 	Flatten(),
-	Dense(256, activation = 'linear'),
+	Dense(256, activation = 'relu'),
 	Dropout(0.5),
-	Dense(128, activation = 'linear'),
-	Dense(5, activation = 'linear')
+	Dense(128, activation = 'relu'),
+	Dense(5, activation = 'sigmoid')
 ])
 
 # Training 
 BATCH_SIZE = 16;
-EPOCHS = 300;
+EPOCHS = 500;
 
 model.compile(loss="mean_squared_error", optimizer='adam', metrics=["accuracy"])
-hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val))
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience = 10)
+
+hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val), callbacks=[tensorboard_callback, es])
 model.summary()
 
 # Testing
