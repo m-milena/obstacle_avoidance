@@ -45,7 +45,7 @@ from tensorflow.keras import datasets, layers, models
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.callbacks import TensorBoard
-from keras.regularizers import l2
+from keras.regularizers import l2, l1_l2
 from predictions_plot import plot_example_predictions
 
 # CNN model
@@ -65,13 +65,12 @@ model = Sequential([
 
 # Training 
 BATCH_SIZE = 16;
-EPOCHS = 500;
+EPOCHS = 200;
 
 model.compile(loss="mean_squared_error", optimizer='adam', metrics=["accuracy"])
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience = 10)
+es = tf.keras.callbacks.EarlyStopping(monitor='val_acc', mode='max', patience = 30)
 
-hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val), callbacks=[tensorboard_callback, es])
+hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val), callbacks = [es])
 model.summary()
 
 # Testing
