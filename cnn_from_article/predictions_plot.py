@@ -44,5 +44,5 @@ def plot_example_predictions(filename, x_test, y_test, predictions):
 		plot_image(i, predictions, y_test, x_test)
 		plt.subplot(num_rows, 2*num_cols, 2*i+2)
 		plot_value_array(i, predictions, y_test)
-	plt.savefig(filename + '/' + filename+'_test_prediction.png',dpi=400)
+	plt.savefig('training/' + filename + '/' + filename+'_test_prediction.png',dpi=400)
 	plt.show()

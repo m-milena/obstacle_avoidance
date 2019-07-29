@@ -3,6 +3,7 @@ import random
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import numpy as np
 import pandas as pd
+import datetime
 from model_description_to_txt import model_description_to_txt
 
 dataset_input = []
@@ -43,6 +44,8 @@ import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.callbacks import TensorBoard
+from keras.regularizers import l2, l1_l2
 from predictions_plot import plot_example_predictions
 
 # CNN model
@@ -54,9 +57,10 @@ model = Sequential([
 	Conv2D(64, (5,5), padding = 'same', activation = 'relu'),
 	AveragePooling2D(pool_size = (2,2), strides = 2),
 	Flatten(),
-	Dense(256, activation = 'linear'),
-	Dense(128, activation = 'linear'),
-	Dense(5, activation = 'linear')
+	Dense(256, activation = 'relu'),
+	Dropout(0.5),
+	Dense(128, activation = 'relu'),
+	Dense(5, activation = 'sigmoid')
 ])
 
 # Training 
@@ -64,7 +68,9 @@ BATCH_SIZE = 16;
 EPOCHS = 200;
 
 model.compile(loss="mean_squared_error", optimizer='adam', metrics=["accuracy"])
-hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val))
+es = tf.keras.callbacks.EarlyStopping(monitor='val_acc', mode='max', patience = 30)
+
+hist = model.fit(x_train, y_train, batch_size = BATCH_SIZE, epochs = EPOCHS, validation_data = (x_val, y_val), callbacks = [es])
 model.summary()
 
 # Testing
@@ -81,16 +87,16 @@ filename = ''
 if answer == 'y':
 	print('Input filename:')
 	filename = input()
-	os.mkdir(filename)
+	os.mkdir("training/" + filename)
 	plot_example_predictions(filename, x_test, y_test, predictions)
 	model_description_to_txt(filename, model, BATCH_SIZE, EPOCHS, test_loss, test_accuracy)
-	model.save(filename + '/' + filename + '_model.model')
-	model.save(filename + '/' + filename + '_model.h5')
+	model.save('training/' + filename + '/' + filename + '_model.model')
+	model.save('training/' + filename + '/' + filename + '_model.h5')
 	model_json = model.to_json()
-	with open(filename + '/' + filename + '_model.json', 'w') as json_file:
+	with open('training/' + filename + '/' + filename + '_model.json', 'w') as json_file:
 		json_file.write(model_json)
 	hist_df = pd.DataFrame(hist.history) 
-	with open(filename + '/' + filename + '_logg.csv', 'w') as f:
+	with open('training/' + filename + '/' + filename + '_logg.csv', 'w') as f:
     		hist_df.to_csv(f)
 
 # Training visualisation
