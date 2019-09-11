@@ -56,7 +56,8 @@ def ros_initialize():
     return rospy.Publisher(speed_topic_name, Twist, queue_size=10) 
 
 def process_depth_image(bridge):
-    image = bridge.imgmsg_to_cv2(image_data, desired_encoding="passthrough")
+    image = bridge.imgmsg_to_cv2(image_data, desired_encoding="32FC1")
+    image = (image/10000)*255
     image = cv2.resize(image, (img_width, img_height))
     nn_input = image.reshape(1, img_height, img_width, 1)
     return nn_input

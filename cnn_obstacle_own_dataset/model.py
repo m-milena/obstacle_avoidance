@@ -17,7 +17,7 @@ from nn_register import save_nn_model, plot_model_loss, plot_model_accuracy
 from nn_register import model_info_to_txt, plot_predictions
 
 # Global variables
-data_folder = './dataset/'
+data_folder = './dataset_v2/'
 img_width = 160
 img_height = 120
 filename_pattern = r'(?P<depth_img_number>\d{5})_(?P<control>(left)?(forward)?(right)?).png'
@@ -88,6 +88,7 @@ def main():
     model = define_model()
     model.compile(loss="mean_squared_error", optimizer='adam', \
             metrics=["accuracy"])
+    model.load_weights('./training/train_v108/train_v108_model.h5')
     es = tf.keras.callbacks.EarlyStopping(monitor = 'val_acc', \
             mode = 'max', patience = es_patience)
 
