@@ -17,14 +17,14 @@ from keras.models import model_from_json
 
 img_width = 160
 img_height = 120
-json_model_name = './training/train_v108/train_v108_model.json'
-h5_model_name = './training/train_v108/train_v108_model.h5'
+json_model_name = 'train_v403_model.json'
+h5_model_name = 'train_v403_model.h5'
 
 node_name = 'robot_moving_node'
 camera_topic_name = '/camera/depth/image_raw'
 speed_topic_name = '/cmd_joy'
 
-control = {
+control_switch = {
     0: -1,
     1: 0,
     2: 1
@@ -76,17 +76,21 @@ def robot_node():
         image_input = process_depth_image(bridge)
         prediction = model.predict(image_input)
         control = np.argmax(prediction)
-        speed = control.get(control)
-        print(control_info(control))
+        speed = control_switch.get(control)
+        print(control_info.get(control))
 
         # Publish control to robot
         vel_msg = Twist()
         vel_msg.linear.x = 0.25
         vel_msg.angular.z = 0.4 * speed
-        pub.publish(vel_msg)
+        vel_pub.publish(vel_msg)
 
         rate.sleep()
 
+    vel_msg = Twist()
+    vel_msg.linear.x = 0
+    vel_msg.angular.z = 0
+    vel_pub.publish(vel_msg)
 
 if __name__ == '__main__':
     try:
