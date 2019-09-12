@@ -88,6 +88,7 @@ def main():
     model = define_model()
     model.compile(loss="mean_squared_error", optimizer='adam', \
             metrics=["accuracy"])
+    model.load_weights('./training/train_v302/train_v302_model.h5')
     es = tf.keras.callbacks.EarlyStopping(monitor = 'val_acc', \
             mode = 'max', patience = es_patience)
 

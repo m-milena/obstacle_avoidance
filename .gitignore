@@ -3,3 +3,11 @@ cnn_from_article/__pycache__/
 cnn_from_article/dataset/
 
 cnn_obstacle_own_dataset/dataset/
+
+.ipynb
+
+.ipynb_checkpoints/
+
+test_network_v1/
+
+cnn_obstacle_own_dataset/__pycache__/
