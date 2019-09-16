@@ -11,3 +11,7 @@ cnn_obstacle_own_dataset/dataset/
 test_network_v1/
 
 cnn_obstacle_own_dataset/__pycache__/
+
+cnn_obstacle_with_history/__pycache__/
+
+cnn_obstacle_with_history/dataset/
