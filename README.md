@@ -18,7 +18,7 @@ During training network gain 95% accuracy on test data and binary cross entropy 
 During test, robot was in unknown environment and there are some graphs with his trajectories. In project labbot robot was used (robot similar to turtlebot) with Astra Orbecc RGB-D camera. To map environment and trajectories during test I used M1M1 Slamtec Mapper.
 
 
-![test1](images/test1.png) ![test2](images/test2.png)
+![test1](images/test1.png){ width=50% } ![test2](images/test2.png){ width=50% }
 
 
 
